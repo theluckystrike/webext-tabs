@@ -1,0 +1,20 @@
+{
+  "name": "webext-tabs",
+  "version": "1.0.0",
+  "description": "Common tab query patterns as typed helpers for Chrome extensions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "keywords": ["chrome-extension", "tabs", "webextension", "typescript"],
+  "author": "theluckystrike",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
