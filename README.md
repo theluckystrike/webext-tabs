@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/webext-tabs)](https://www.npmjs.com/package/webext-tabs)
+[![npm](https://img.shields.io/npm/v/@theluckystrike/webext-tabs)](https://www.npmjs.com/package/@theluckystrike/webext-tabs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
@@ -11,7 +11,7 @@ Part of the [chrome-extension-guide](https://github.com/niceByte/chrome-extensio
 ## Install
 
 ```bash
-npm install webext-tabs
+npm install @theluckystrike/webext-tabs
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ npm install webext-tabs
 import {
   getActiveTab, getActiveTabUrl, getAllTabs, getTabsByUrl,
   openTab, openOrFocusTab, closeTab, reloadTab, sendMessageToTab,
-} from "webext-tabs";
+} from "@theluckystrike/webext-tabs";
 
 // Get the active tab
 const tab = await getActiveTab();
