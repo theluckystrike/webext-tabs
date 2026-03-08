@@ -27,6 +27,13 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/theluckystrike/webext-tabs"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
