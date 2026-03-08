@@ -1,7 +1,7 @@
 {
   "name": "@theluckystrike/webext-tabs",
   "version": "1.0.0",
-  "description": "Pre-built typed tab query patterns for Chrome extensions",
+  "description": "Pre-built typed tab query patterns for Chrome extensions — active tab, search, group, duplicate detection, and more. Part of @zovo/webext.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
