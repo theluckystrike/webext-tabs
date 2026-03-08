@@ -6,16 +6,16 @@ Thank you for your interest in contributing! This document outlines the process 
 
 1. **Fork** the repository
 2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/webext-tabs.git`
-3. **Install** dependencies: `npm install`
+3. **Install** dependencies: `pnpm install`
 
 ## Development
 
 ```bash
 # Run tests
-npm test
+pnpm test
 
 # Build the TypeScript
-npm run build
+pnpm build
 ```
 
 ## Project Structure
@@ -66,7 +66,7 @@ describe("myNewFunction", () => {
 
 1. Create a new branch: `git checkout -b feature/my-feature`
 2. Make your changes
-3. Run tests: `npm test`
+3. Run tests: `pnpm test`
 4. Commit with a clear message: `git commit -m "Add feature name"`
 5. Push to your fork: `git push origin feature/my-feature`
 6. Open a Pull Request

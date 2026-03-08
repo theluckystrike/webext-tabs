@@ -2,6 +2,7 @@
 
 <div align="center">
 
+[![CI](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/webext-tabs.svg)](https://www.npmjs.com/package/webext-tabs)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178c6.svg)](https://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/npm/l/webext-tabs.svg)](./LICENSE)
