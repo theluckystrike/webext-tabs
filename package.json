@@ -1,7 +1,7 @@
 {
   "name": "@theluckystrike/webext-tabs",
   "version": "1.0.0",
-  "description": "Pre-built typed tab query patterns for Chrome extensions — active tab, search, group, duplicate detection, and more. Part of @zovo/webext.",
+  "description": "Pre-built typed tab query patterns for Chrome extensions. Part of @zovo/webext.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -31,12 +31,14 @@
   "keywords": [
     "chrome-extension",
     "tabs",
-    "webextension",
+    "tab-query",
     "typescript",
-    "zovo",
-    "webext",
-    "browser-tabs",
-    "chrome-tabs"
+    "webextension",
+    "browser-extension",
+    "manifest-v3",
+    "chrome-tabs",
+    "active-tab",
+    "tab-groups"
   ],
   "author": "theluckystrike",
   "license": "MIT",
