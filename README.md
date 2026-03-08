@@ -3,9 +3,9 @@
 <div align="center">
 
 [![CI](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/webext-tabs.svg)](https://www.npmjs.com/package/webext-tabs)
+[![npm version](https://img.shields.io/npm/v/@theluckystrike/webext-tabs.svg)](https://www.npmjs.com/package/@theluckystrike/webext-tabs)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178c6.svg)](https://www.typescriptlang.org/)
-[![MIT License](https://img.shields.io/npm/l/webext-tabs.svg)](./LICENSE)
+[![MIT License](https://img.shields.io/npm/l/@theluckystrike/webext-tabs.svg)](./LICENSE)
 
 </div>
 
@@ -22,7 +22,7 @@ Pre-built typed tab query patterns for Chrome extensions — get active tab, fin
 ## Install
 
 ```bash
-npm install webext-tabs
+npm install @theluckystrike/webext-tabs
 ```
 
 ## Quick Start
@@ -30,7 +30,7 @@ npm install webext-tabs
 ### Get the Active Tab
 
 ```typescript
-import { getActiveTab, getActiveTabUrl } from "webext-tabs";
+import { getActiveTab, getActiveTabUrl } from "@theluckystrike/webext-tabs";
 
 // Get the full tab object
 const tab = await getActiveTab();
@@ -43,7 +43,7 @@ const url = await getActiveTabUrl();
 ### Query Tabs by URL
 
 ```typescript
-import { getTabsByUrl } from "webext-tabs";
+import { getTabsByUrl } from "@theluckystrike/webext-tabs";
 
 // Find all GitHub tabs
 const githubTabs = await getTabsByUrl("https://github.com/*");
@@ -56,7 +56,7 @@ const docsTabs = await getTabsByUrl("https://*.example.com/docs/*");
 ### Create a New Tab
 
 ```typescript
-import { openTab, openOrFocusTab } from "webext-tabs";
+import { openTab, openOrFocusTab } from "@theluckystrike/webext-tabs";
 
 // Open a new tab
 const newTab = await openTab("https://example.com");
@@ -70,7 +70,7 @@ const tab = await openOrFocusTab("https://example.com");
 ### Find Duplicate Tabs
 
 ```typescript
-import { getAllTabs, getTabsByUrl } from "webext-tabs";
+import { getAllTabs, getTabsByUrl } from "@theluckystrike/webext-tabs";
 
 // Find potential duplicates by URL
 async function findDuplicates(urlPattern: string) {
@@ -90,7 +90,7 @@ const duplicates = await findDuplicates("https://github.com/*");
 ### Close All Tabs Matching Pattern
 
 ```typescript
-import { getTabsByUrl, closeTabs } from "webext-tabs";
+import { getTabsByUrl, closeTabs } from "@theluckystrike/webext-tabs";
 
 // Close all tabs to a specific domain
 async function closeAllToDomain(domain: string) {
@@ -111,7 +111,7 @@ await closeAllToDomain("youtube.com");
 ### Get Tabs in Current Window
 
 ```typescript
-import { getTabsInWindow, getPinnedTabs } from "webext-tabs";
+import { getTabsInWindow, getPinnedTabs } from "@theluckystrike/webext-tabs";
 
 // All tabs in current window
 const windowTabs = await getTabsInWindow();
@@ -126,7 +126,7 @@ const otherWindowTabs = await getTabsInWindow(12345);
 ### Tab Grouping with Colors
 
 ```typescript
-import { getTabsInWindow, moveTab } from "webext-tabs";
+import { getTabsInWindow, moveTab } from "@theluckystrike/webext-tabs";
 
 // Group tabs by organizing them in order
 // (Chrome's tab grouping API requires chrome.tabs.group)
@@ -163,7 +163,7 @@ async function groupTabsByDomain(windowId?: number) {
 ### Reload and Update Tabs
 
 ```typescript
-import { reloadTab, duplicateTab, sendMessageToTab } from "webext-tabs";
+import { reloadTab, duplicateTab, sendMessageToTab } from "@theluckystrike/webext-tabs";
 
 // Reload a tab (optionally bypassing cache)
 await reloadTab(tabId, true); // bypass cache
