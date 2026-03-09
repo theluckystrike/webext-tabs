@@ -1,7 +1,7 @@
 {
-  "name": "@theluckystrike/webext-tabs",
+  "name": "webext-tabs",
   "version": "1.0.0",
-  "description": "Pre-built typed tab query patterns for Chrome extensions. Part of @zovo/webext.",
+  "description": "Pre-built typed tab query patterns for Chrome extensions — active tab, search, group, duplicate detection, and more. Part of @zovo/webext.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -10,6 +10,10 @@
       "default": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/theluckystrike/webext-tabs.git"
@@ -18,11 +22,9 @@
   "bugs": {
     "url": "https://github.com/theluckystrike/webext-tabs/issues"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
@@ -31,23 +33,16 @@
   "keywords": [
     "chrome-extension",
     "tabs",
-    "tab-query",
-    "typescript",
     "webextension",
-    "browser-extension",
-    "manifest-v3",
-    "chrome-tabs",
-    "active-tab",
-    "tab-groups"
+    "typescript",
+    "zovo",
+    "webext"
   ],
   "author": "theluckystrike",
   "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
-  "sideEffects": false,
   "devDependencies": {
     "@types/chrome": "^0.0.287",
+    "canvas": "^3.2.1",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }

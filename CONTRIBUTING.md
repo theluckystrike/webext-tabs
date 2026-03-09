@@ -1,78 +1,86 @@
 # Contributing to webext-tabs
 
-Thank you for your interest in contributing! This guide will help you get started.
-
-## Prerequisites
-
-- Node.js 20+
-- pnpm (recommended) or npm
+Thank you for your interest in contributing! This document outlines the process for contributing to this project.
 
 ## Getting Started
 
-### 1. Fork the Repository
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/webext-tabs.git`
+3. **Install** dependencies: `pnpm install`
 
-Click the "Fork" button on the [GitHub page](https://github.com/theluckystrike/webext-tabs) to create your own copy.
-
-### 2. Clone Your Fork
-
-```bash
-git clone https://github.com/YOUR_USERNAME/webext-tabs.git
-cd webext-tabs
-```
-
-### 3. Install Dependencies
+## Development
 
 ```bash
-pnpm install
-```
-
-### 4. Create a Feature Branch
-
-```bash
-git checkout -b feature/your-feature-name
-# or
-git checkout -b fix/bug-description
-```
-
-### 5. Make Your Changes
-
-- Add new tab utilities to `src/index.ts`
-- Include proper TypeScript types
-- Add tests if applicable
-
-### 6. Run Tests
-
-```bash
+# Run tests
 pnpm test
-```
 
-### 7. Build the Package
-
-```bash
+# Build the TypeScript
 pnpm build
 ```
 
-### 8. Commit and Push
+## Project Structure
 
-```bash
-git add .
-git commit -m "Add: your feature description"
-git push origin feature/your-feature-name
+```
+webext-tabs/
+├── src/
+│   └── index.ts      # Main source code
+├── dist/             # Compiled output
+├── package.json
+└── tsconfig.json
 ```
 
-### 9. Create a Pull Request
+## Adding New Functions
 
-1. Go to the original repository
-2. Click "New Pull Request"
-3. Select your branch and submit
+When adding new tab utility functions:
+
+1. Add the function to `src/index.ts`
+2. Export the TypeScript interface types used
+3. Ensure proper error handling (e.g., handle invalid tab IDs)
+4. Add tests for the new function
+5. Update the README.md API Reference table
 
 ## Code Style
 
-- Use TypeScript
-- Follow existing code patterns
-- Add JSDoc comments for new functions
-- Ensure tests pass before submitting
+- Use TypeScript for all new code
+- Follow existing patterns in the codebase
+- Add JSDoc comments for exported functions
+- Ensure full type coverage
 
-## Questions?
+## Testing
 
-Open an issue for questions about contributing.
+Tests are run with [Vitest](https://vitest.dev/). Add tests in `src/index.test.ts`:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import { myNewFunction } from "./index";
+
+describe("myNewFunction", () => {
+  it("should do something", async () => {
+    const result = await myNewFunction();
+    expect(result).toBeDefined();
+  });
+});
+```
+
+## Submitting Changes
+
+1. Create a new branch: `git checkout -b feature/my-feature`
+2. Make your changes
+3. Run tests: `pnpm test`
+4. Commit with a clear message: `git commit -m "Add feature name"`
+5. Push to your fork: `git push origin feature/my-feature`
+6. Open a Pull Request
+
+## Issues
+
+If you find a bug or have a suggestion:
+
+1. Check if the issue already exists
+2. If not, open a new issue with:
+   - Clear description
+   - Steps to reproduce
+   - Expected vs actual behavior
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the MIT License.

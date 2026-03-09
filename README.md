@@ -1,105 +1,266 @@
+# webext-tabs
+
 <div align="center">
 
-# @theluckystrike/webext-tabs
-
-Pre-built typed tab query patterns for Chrome extensions. Active tab, search, group, duplicate detection, and more.
-
-[![npm version](https://img.shields.io/npm/v/@theluckystrike/webext-tabs)](https://www.npmjs.com/package/@theluckystrike/webext-tabs)
-[![npm downloads](https://img.shields.io/npm/dm/@theluckystrike/webext-tabs)](https://www.npmjs.com/package/@theluckystrike/webext-tabs)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@theluckystrike/webext-tabs)
-
-[Installation](#installation) · [Quick Start](#quick-start) · [API](#api) · [License](#license)
+[![CI](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-tabs/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@theluckystrike/webext-tabs.svg)](https://www.npmjs.com/package/@theluckystrike/webext-tabs)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178c6.svg)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/npm/l/@theluckystrike/webext-tabs.svg)](./LICENSE)
 
 </div>
 
----
+Pre-built typed tab query patterns for Chrome extensions — get active tab, find by URL, group tabs, and more.
 
 ## Features
 
-- **Common patterns** -- active tab, current window, all tabs, pinned, audible, and more
-- **Search** -- find tabs by URL pattern or title
-- **Duplicate detection** -- find tabs with the same URL
-- **Tab groups** -- query by group ID
-- **Fully typed** -- every query returns typed `chrome.tabs.Tab[]`
-- **Zero boilerplate** -- one-liner replacements for common `chrome.tabs.query()` calls
+- **🔍 Query Helpers** — Get active tab, all tabs, tabs by URL pattern, pinned tabs, tabs in specific windows
+- **📑 Tab Operations** — Create, close, reload, duplicate, and move tabs
+- **🎯 Smart Open** — Open a tab or focus it if already open (prevent duplicates)
+- **💬 Messaging** — Send messages to content scripts with full type inference
+- **🛡️ Type Safe** — Full TypeScript support with typed `TabInfo` interface
 
-## Installation
+## Install
 
 ```bash
 npm install @theluckystrike/webext-tabs
 ```
 
-<details>
-<summary>Other package managers</summary>
-
-```bash
-pnpm add @theluckystrike/webext-tabs
-# or
-yarn add @theluckystrike/webext-tabs
-```
-
-</details>
-
 ## Quick Start
 
-```typescript
-import { Tabs } from "@theluckystrike/webext-tabs";
+### Get the Active Tab
 
-const active = await Tabs.getActive();              // current active tab
-const all = await Tabs.getAll();                     // all tabs
-const pinned = await Tabs.getPinned();               // pinned tabs
-const matches = await Tabs.findByUrl("*://github.com/*");
-const dupes = await Tabs.getDuplicates();            // tabs sharing a URL
+```typescript
+import { getActiveTab, getActiveTabUrl } from "@theluckystrike/webext-tabs";
+
+// Get the full tab object
+const tab = await getActiveTab();
+console.log(tab?.url, tab?.title);
+
+// Or just get the URL
+const url = await getActiveTabUrl();
 ```
 
-## API
+### Query Tabs by URL
 
-| Method | Description |
-|--------|-------------|
-| `getActive()` | Active tab in the current window |
-| `getAll()` | All tabs across all windows |
-| `getCurrentWindow()` | All tabs in the current window |
-| `getPinned()` | All pinned tabs |
-| `getAudible()` | Tabs currently playing audio |
-| `getByStatus(status)` | Tabs by loading status |
-| `findByUrl(pattern)` | Match tabs by URL pattern |
-| `findByTitle(pattern)` | Match tabs by title |
-| `getDuplicates()` | Find tabs sharing a URL |
-| `getByGroupId(groupId)` | Tabs in a specific tab group |
+```typescript
+import { getTabsByUrl } from "@theluckystrike/webext-tabs";
+
+// Find all GitHub tabs
+const githubTabs = await getTabsByUrl("https://github.com/*");
+console.log(`Found ${githubTabs.length} GitHub tabs`);
+
+// Use glob patterns
+const docsTabs = await getTabsByUrl("https://*.example.com/docs/*");
+```
+
+### Create a New Tab
+
+```typescript
+import { openTab, openOrFocusTab } from "@theluckystrike/webext-tabs";
+
+// Open a new tab
+const newTab = await openTab("https://example.com");
+
+// Open or focus existing (no duplicates)
+const tab = await openOrFocusTab("https://example.com");
+```
+
+## Common Patterns
+
+### Find Duplicate Tabs
+
+```typescript
+import { getAllTabs, getTabsByUrl } from "@theluckystrike/webext-tabs";
+
+// Find potential duplicates by URL
+async function findDuplicates(urlPattern: string) {
+  const tabs = await getTabsByUrl(urlPattern);
+  
+  if (tabs.length > 1) {
+    console.log(`Found ${tabs.length} tabs matching: ${urlPattern}`);
+    return tabs; // Keep the first, close the rest
+  }
+  return [];
+}
+
+// Usage
+const duplicates = await findDuplicates("https://github.com/*");
+```
+
+### Close All Tabs Matching Pattern
+
+```typescript
+import { getTabsByUrl, closeTabs } from "@theluckystrike/webext-tabs";
+
+// Close all tabs to a specific domain
+async function closeAllToDomain(domain: string) {
+  const pattern = `https://${domain}/*`;
+  const tabs = await getTabsByUrl(pattern);
+  
+  if (tabs.length > 0) {
+    const ids = tabs.map(t => t.id);
+    await closeTabs(ids);
+    console.log(`Closed ${ids.length} tabs`);
+  }
+}
+
+// Usage
+await closeAllToDomain("youtube.com");
+```
+
+### Get Tabs in Current Window
+
+```typescript
+import { getTabsInWindow, getPinnedTabs } from "@theluckystrike/webext-tabs";
+
+// All tabs in current window
+const windowTabs = await getTabsInWindow();
+
+// Only pinned tabs
+const pinned = await getPinnedTabs();
+
+// Tabs in a specific window
+const otherWindowTabs = await getTabsInWindow(12345);
+```
+
+### Tab Grouping with Colors
+
+```typescript
+import { getTabsInWindow, moveTab } from "@theluckystrike/webext-tabs";
+
+// Group tabs by organizing them in order
+// (Chrome's tab grouping API requires chrome.tabs.group)
+async function groupTabsByDomain(windowId?: number) {
+  const tabs = await getTabsInWindow(windowId);
+  
+  // Group by domain
+  const byDomain = new Map<string, typeof tabs>();
+  
+  for (const tab of tabs) {
+    try {
+      const url = new URL(tab.url);
+      const domain = url.hostname;
+      
+      if (!byDomain.has(domain)) {
+        byDomain.set(domain, []);
+      }
+      byDomain.get(domain)!.push(tab);
+    } catch {
+      // Skip invalid URLs
+    }
+  }
+  
+  // Move tabs to group them (sorted by domain)
+  let index = 0;
+  for (const [, domainTabs] of byDomain) {
+    for (const tab of domainTabs) {
+      await moveTab(tab.id, index++);
+    }
+  }
+}
+```
+
+### Reload and Update Tabs
+
+```typescript
+import { reloadTab, duplicateTab, sendMessageToTab } from "@theluckystrike/webext-tabs";
+
+// Reload a tab (optionally bypassing cache)
+await reloadTab(tabId, true); // bypass cache
+
+// Duplicate a tab
+const newTab = await duplicateTab(tabId);
+
+// Send a message to a content script
+const response = await sendMessageToTab<{ data: string }>(tabId, {
+  action: "getData",
+});
+```
+
+## API Reference
+
+### Query Helpers
+
+| Function | Returns | Description |
+|----------|---------|-------------|
+| `getActiveTab()` | `TabInfo \| null` | Active tab in current window |
+| `getActiveTabUrl()` | `string \| null` | URL of active tab |
+| `getAllTabs()` | `TabInfo[]` | All tabs across all windows |
+| `getTabsInWindow(windowId?)` | `TabInfo[]` | Tabs in window (default: current) |
+| `getPinnedTabs()` | `TabInfo[]` | Pinned tabs in current window |
+| `getTabsByUrl(pattern)` | `TabInfo[]` | Tabs matching URL pattern (glob supported) |
+| `getTabById(id)` | `TabInfo \| null` | Single tab by ID |
+
+### Tab Actions
+
+| Function | Returns | Description |
+|----------|---------|-------------|
+| `openTab(url, active?)` | `TabInfo` | Open new tab (default: active) |
+| `openOrFocusTab(url)` | `TabInfo` | Open or focus existing tab by URL |
+| `closeTab(id)` | `void` | Close a single tab |
+| `closeTabs(ids)` | `void` | Close multiple tabs |
+| `reloadTab(id, bypassCache?)` | `void` | Reload a tab |
+| `duplicateTab(id)` | `TabInfo` | Duplicate a tab |
+| `moveTab(id, index, windowId?)` | `TabInfo` | Move tab to new position/window |
+| `sendMessageToTab(id, message)` | `T` | Send message to content script |
+
+### TabInfo Type
+
+```typescript
+interface TabInfo {
+  id: number;
+  url: string;
+  title: string;
+  active: boolean;
+  pinned: boolean;
+  windowId: number;
+  index: number;
+}
+```
 
 ## Permissions
 
+This library uses the Chrome `tabs` API. The permission you need depends on your use case:
+
+### `tabs` Permission
+
+Required for:
+- Querying tabs across all windows
+- Accessing full URL information
+- Using `getAllTabs()`, `getTabsByUrl()`, `getTabsInWindow()`
+
 ```json
-{ "permissions": ["tabs"] }
+{
+  "permissions": ["tabs"]
+}
 ```
+
+### `activeTab` Permission
+
+Use this for:
+- Only getting the active tab in the current window
+- Less permission surface (recommended when possible)
+
+```json
+{
+  "permissions": ["activeTab"]
+}
+```
+
+**Note:** With `activeTab`, `getActiveTab()` and `getActiveTabUrl()` still work, but `getAllTabs()` will only return the active tab. Use `tabs` permission when you need to query multiple tabs or access URLs of background tabs.
 
 ## Part of @zovo/webext
 
-This package is part of the [@zovo/webext](https://github.com/theluckystrike) family -- typed, modular utilities for Chrome extension development:
+`webext-tabs` is part of the [@zovo/webext](https://github.com/theluckystrike) ecosystem — a collection of typed helpers for Chrome extension development.
 
-| Package | Description |
-|---------|-------------|
-| [webext-storage](https://github.com/theluckystrike/webext-storage) | Typed storage with schema validation |
-| [webext-messaging](https://github.com/theluckystrike/webext-messaging) | Type-safe message passing |
-| [webext-tabs](https://github.com/theluckystrike/webext-tabs) | Tab query helpers |
-| [webext-cookies](https://github.com/theluckystrike/webext-cookies) | Promise-based cookies API |
-| [webext-i18n](https://github.com/theluckystrike/webext-i18n) | Internationalization toolkit |
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Other packages:
+- [webext-context-menu](https://github.com/theluckystrike/webext-context-menu) — Typed context menu helpers
+- [webext-storage](https://github.com/theluckystrike/webext-storage) — Type-safe storage API
+- [webext-badge](https://github.com/theluckystrike/webext-badge) — Badge text and color helpers
 
 ## License
 
-MIT License -- see [LICENSE](LICENSE) for details.
+MIT
 
 ---
 
